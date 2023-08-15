@@ -1,4 +1,4 @@
-// Rest of the code is already given as Driver Code
+// Rest of the code is already given as Driver Codefrfae
 
 class Solution
 {
@@ -17,4 +17,8 @@ class Solution
         sum += one+two;
     }
     return sum;  
-}
+    }
+};
+
+
+
