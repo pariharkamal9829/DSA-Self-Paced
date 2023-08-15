@@ -1,15 +1,28 @@
-# Rest of the code is already given in driver code
+# Rest of the code is already given in driver code time complexity problem
 
 class Solution:
-    def caseSort(self,s,n):
-        upper_chars = sorted([i for i in s if i.isupper()])
-        lower_chars = sorted([i for i in s if i.islower()])
-        sorted_string = []
+    def caseSort(self, s, n):
+        lower_chars = []
+        upper_chars = []
+        
         for c in s:
             if c.islower():
-                sorted_string.append(lower_chars[0])
-                x = lower_chars.pop(0)
+                lower_chars.append(c)
             elif c.isupper():
-                sorted_string.append(upper_chars[0])
-                x = upper_chars.pop(0)
+                upper_chars.append(c)
+        
+        lower_chars.sort()
+        upper_chars.sort()
+        
+        sorted_string = []
+        lower_idx = upper_idx = 0
+        
+        for c in s:
+            if c.islower():
+                sorted_string.append(lower_chars[lower_idx])
+                lower_idx += 1
+            elif c.isupper():
+                sorted_string.append(upper_chars[upper_idx])
+                upper_idx += 1
+        
         return ''.join(sorted_string)
