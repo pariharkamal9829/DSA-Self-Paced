@@ -1,40 +1,42 @@
 // Rest of the code is already given as Driver Code
 
-#define vi vector<int>
-struct comap 
-{
-    bool operator()(vi  p1, vi  p2)
-    {
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+struct Compare {
+    bool operator()(const vector<int>& p1, const vector<int>& p2) {
         return p1[0] > p2[0];
     }
 };
-vi solve(vector<vi> &arr,int K){
-	priority_queue<vi, vector<vi>, comap> pq;
-	for(int i=0;i<K;i++){
-		pq.push(vi {arr[i][0],i,0});
-	}
-	int count = 0;
-	vi ret;
-	while(count != K*K){
-		vi m = pq.top();
-		ret.push_back(m[0]);
-		count++;
-		pq.pop();
-		int c = m[2];
-		if(c < K-1)
-		{
-			pq.push(vi {arr[m[1]][c+1],m[1],c+1});
-		}
-	}
-	return ret;
-}
 
-class Solution
-{
-    public:
-    vector<int> mergeKArrays(vector<vector<int>> arr, int K)
-    {
-        return solve(arr,K);
+class Solution {
+public:
+    vector<int> mergeKArrays(vector<vector<int>>& arr, int K) {
+        priority_queue<vector<int>, vector<vector<int>>, Compare> pq;
+        vector<int> indices(K, 0);  // Keep track of the current index for each array
         
+        for (int i = 0; i < K; i++) {
+            pq.push({arr[i][0], i, 0});
+        }
+        
+        vector<int> ret;
+        while (!pq.empty()) {
+            vector<int> m = pq.top();
+            pq.pop();
+            
+            int value = m[0];
+            int arrayIndex = m[1];
+            int currentIndex = m[2];
+            
+            ret.push_back(value);
+            
+            if (currentIndex + 1 < K) {
+                pq.push({arr[arrayIndex][currentIndex + 1], arrayIndex, currentIndex + 1});
+            }
+        }
+        
+        return ret;
     }
 };
