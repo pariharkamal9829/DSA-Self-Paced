@@ -1,24 +1,37 @@
-// Rest of the code is already given as Driver Code
+// Rest of the code is already given as Driver Code time complexity reduced in latest code
 
 class Solution {
-    int diameter(Node root) {
-        if(root == null)
-            return 0;
-            
-        int lh = height(root.left);
-        int rh = height(root.right);
-        int d1 = lh + rh + 1;
-        
-        int d2 = diameter(root.left);
-        int d3 = diameter(root.right);
-        
-        return Math.max(d1,Math.max(d2,d3));
+    class Result {
+        int diameter;
+        int height;
+
+        Result(int diameter, int height) {
+            this.diameter = diameter;
+            this.height = height;
+        }
     }
-    
-    int height(Node root){
-        if(root == null)
+
+    Result diameterAndHeight(Node root) {
+        if (root == null) {
+            return new Result(0, 0);
+        }
+
+        Result leftResult = diameterAndHeight(root.left);
+        Result rightResult = diameterAndHeight(root.right);
+
+        int height = Math.max(leftResult.height, rightResult.height) + 1;
+
+        int throughRoot = leftResult.height + rightResult.height + 1;
+        int maxDiameter = Math.max(throughRoot, Math.max(leftResult.diameter, rightResult.diameter));
+
+        return new Result(maxDiameter, height);
+    }
+
+    int diameter(Node root) {
+        if (root == null) {
             return 0;
-            
-        return 1 + Math.max(height(root.left),height(root.right));
+        }
+
+        return diameterAndHeight(root).diameter;
     }
 }
